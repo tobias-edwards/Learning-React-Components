@@ -1,0 +1,12 @@
+.draggableCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid black;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+.draggableCard:last-child {
+    margin-bottom: 0;
+}
