@@ -1,0 +1,13 @@
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.block {
+  height: 20px;
+  width: 50%;
+  margin: 0 20px;
+}

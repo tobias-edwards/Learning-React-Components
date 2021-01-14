@@ -11,84 +11,115 @@ import Stopwatch from "./components/stopwatch";
 import Draggable from "./components/draggable";
 import DraggableCard from "./components/DraggableCard";
 import GIFViewer from "./components/gif-viewer";
+import StarRatingInteractive from "./components/StarRatingInteractive";
+import ColourList from "./components/ColourList";
+import AddColourForm from "./components/AddColourForm";
+import colourData from "./colour-data.json";
 
-const Main = props => {
-    return (
-        <div className="center">
-            {/* Generic Draggable Component */}
-            <div className="flex-item">
-                <Draggable dragHandle>
-                    <DraggableCard />
-                    <DraggableCard />
-                    <DraggableCard />
-                </Draggable>
-            </div>
+const Main = (props) => {
+  const [colours, setColours] = useState(colourData);
 
-            {/* User cards */}
-            <div className="flex-item all-cards">
-                {props.userData.users.map(user => (
-                    <UserCard key={user.id} {...user} />
-                ))}
-                <AddCardForm
-                    addUser={(name, age) => <UserCard {...name} {...age} />}
-                />
-            </div>
+  return (
+    <div className="center">
+      {/* Props passing */}
+      <div className="flex-item">
+        <AddColourForm />
+      </div>
 
-            {/* Toggle Button */}
-            <div className="flex-item">
-                <ToggleButton />
-            </div>
+      {/* Props passing */}
+      <div className="flex-item">
+        <ColourList
+          colours={colours}
+          onRateColour={(id, rating) =>
+            setColours(
+              colours.map((colour) =>
+                colour.id === id ? { ...colour, rating } : colour
+              )
+            )
+          }
+          onRemoveColour={(id) => {
+            setColours(colours.filter((colour) => colour.id !== id));
+          }}
+        />
+      </div>
 
-            {/* Gallery */}
-            <div className="flex-item">
-                <Gallery />
-            </div>
+      {/* Star rating */}
+      <div className="flex-item">
+        <StarRatingInteractive totalStars={5} />
+      </div>
 
-            {/* Stopwatch */}
-            <div className="flex-item">
-                <Stopwatch />
-            </div>
+      {/* Generic Draggable Component */}
+      <div className="flex-item">
+        <Draggable dragHandle>
+          <DraggableCard />
+          <DraggableCard />
+          <DraggableCard />
+        </Draggable>
+      </div>
 
-            {/* Fetch GIF Cards */}
-            <div className="flex-item">
-                <GIFViewer />
-            </div>
-        </div>
-    );
+      {/* User cards */}
+      <div className="flex-item all-cards">
+        {props.userData.users.map((user) => (
+          <UserCard key={user.id} {...user} />
+        ))}
+        <AddCardForm addUser={(name, age) => <UserCard {...name} {...age} />} />
+      </div>
+
+      {/* Toggle Button */}
+      <div className="flex-item">
+        <ToggleButton />
+      </div>
+
+      {/* Gallery */}
+      <div className="flex-item">
+        <Gallery />
+      </div>
+
+      {/* Stopwatch */}
+      <div className="flex-item">
+        <Stopwatch />
+      </div>
+
+      {/* Fetch GIF Cards */}
+      <div className="flex-item">
+        <GIFViewer />
+      </div>
+    </div>
+  );
 };
 
 class MainClass extends React.Component {
-    prevUserId = 6;
+  prevUserId = 6;
 
-    render() {
-        return (
-            <div className="center">
-                {/* User cards */}
+  render() {
+    return (
+      <div className="center">
+        {/* User cards */}
 
-                <div className="flex-item all-cards">
-                    {this.props.userData.users.map(user => (
-                        <UserCard key={user.id} {...user} />
-                    ))}
-                    <AddCardForm addUser={this.handleAddUser} />
-                </div>
+        <div className="flex-item all-cards">
+          {this.props.userData.users.map((user) => (
+            <UserCard key={user.id} {...user} />
+          ))}
+          <AddCardForm addUser={this.handleAddUser} />
+        </div>
 
-                {/* Toggle Button */}
-                <div className="flex-item">
-                    <ToggleButton />
-                </div>
+        {/* Toggle Button */}
+        <div className="flex-item">
+          <ToggleButton />
+        </div>
 
-                {/* Gallery */}
-                <div className="flex-item">
-                    <Gallery />
-                </div>
+        {/* Gallery */}
+        <div className="flex-item">
+          <Gallery />
+        </div>
 
-                {/* Stopwatch */}
-                <div className="flex-item">
-                    <Stopwatch />
-                </div>
-            </div>
-        );
-    }
+        {/* Stopwatch */}
+        <div className="flex-item">
+          <Stopwatch />
+        </div>
+      </div>
+    );
+  }
 }
 
 ReactDOM.render(<Main userData={data} />, document.getElementById("root"));
