@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import { v4 as uuidv4 } from "uuid";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
-import data from "./sample-data.json";
+import userData from "./user-data.json";
 import UserCard from "./components/user-card";
 import ToggleButton from "./components/ToggleButton";
 import Gallery from "./components/gallery";
-import AddCardForm from "./components/add-card-form";
+import AddUserCardForm from "./components/AddUserCardForm";
 import Stopwatch from "./components/stopwatch";
 import Draggable from "./components/draggable";
 import DraggableCard from "./components/DraggableCard";
@@ -16,14 +17,27 @@ import ColourList from "./components/ColourList";
 import AddColourForm from "./components/AddColourForm";
 import colourData from "./colour-data.json";
 
-const Main = (props) => {
+const Main = () => {
   const [colours, setColours] = useState(colourData);
+  const [users, setUsers] = useState(userData);
 
   return (
     <div className="center">
       {/* Props passing */}
       <div className="flex-item">
-        <AddColourForm />
+        <AddColourForm
+          onNewColour={(title, colour) =>
+            setColours([
+              {
+                id: uuidv4(),
+                rating: 0,
+                title,
+                colour,
+              },
+              ...colours,
+            ])
+          }
+        />
       </div>
 
       {/* Props passing */}
@@ -59,10 +73,22 @@ const Main = (props) => {
 
       {/* User cards */}
       <div className="flex-item all-cards">
-        {props.userData.users.map((user) => (
+        {users.map((user) => (
           <UserCard key={user.id} {...user} />
         ))}
-        <AddCardForm addUser={(name, age) => <UserCard {...name} {...age} />} />
+        <AddUserCardForm
+          addUser={(name, age) => {
+            setUsers([
+              {
+                name,
+                age,
+                money: 0,
+                id: users.length + 1,
+              },
+              ...users,
+            ]);
+          }}
+        />
       </div>
 
       {/* Toggle Button */}
@@ -88,41 +114,7 @@ const Main = (props) => {
   );
 };
 
-class MainClass extends React.Component {
-  prevUserId = 6;
-
-  render() {
-    return (
-      <div className="center">
-        {/* User cards */}
-
-        <div className="flex-item all-cards">
-          {this.props.userData.users.map((user) => (
-            <UserCard key={user.id} {...user} />
-          ))}
-          <AddCardForm addUser={this.handleAddUser} />
-        </div>
-
-        {/* Toggle Button */}
-        <div className="flex-item">
-          <ToggleButton />
-        </div>
-
-        {/* Gallery */}
-        <div className="flex-item">
-          <Gallery />
-        </div>
-
-        {/* Stopwatch */}
-        <div className="flex-item">
-          <Stopwatch />
-        </div>
-      </div>
-    );
-  }
-}
-
-ReactDOM.render(<Main userData={data} />, document.getElementById("root"));
+ReactDOM.render(<Main />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

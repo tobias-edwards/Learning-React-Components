@@ -1,27 +1,29 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
+import { useInput } from "../../hooks";
 
+// Controlled component - React controls state of the form
 const AddColourForm = ({ onNewColour = (f) => f }) => {
-  const txtTitle = useRef();
-  const hexColour = useRef();
+  const [titleProps, resetTitle] = useInput("");
+  const [colourProps, resetColour] = useInput("#000000");
 
   const submit = (e) => {
     e.preventDefault();
-    const title = txtTitle.current.value;
-    const colour = hexColour.current.value;
-    onNewColour(title, colour);
-    txtTitle.current.value = "";
-    hexColour.current.value = "";
+    onNewColour(titleProps.value, colourProps.value);
+    resetTitle();
+    resetColour();
   };
 
   return (
     <form onSubmit={submit}>
+      {/* Without onChange, the field will be read-only */}
       <input
-        ref={txtTitle}
+        {...titleProps}
         type="text"
         placeholder="colour title..."
         required
       />
-      <input ref={hexColour} type="colour" required />
+      <input {...colourProps} type="color" required />
+      {/* Auto type="submit" */}
       <button>Add</button>
     </form>
   );
