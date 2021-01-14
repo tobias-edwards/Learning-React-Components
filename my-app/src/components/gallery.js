@@ -2,27 +2,21 @@ import React, { useState } from "react";
 import PageSlider from "./page-slider";
 import ImageViewer from "./image-viewer";
 
-class Gallery extends React.Component {
-  state = {
-    picNum: 0,
-  };
-  mod(n, m) {
-    return ((n % m) + m) % m;
-  }
-  changeImage = (delta) => () => {
-    this.setState((prevState) => ({
-      picNum: this.mod(prevState.picNum + delta, 6),
-    }));
-  };
-  render() {
-    return (
-      <div className="row apart">
-        <PageSlider next={this.changeImage(-1)} char="<" />
-        <ImageViewer num={this.state.picNum} />
-        <PageSlider next={this.changeImage(1)} char=">" />
-      </div>
-    );
-  }
-}
+const Gallery = ({ photos = [...Array(5).keys()].map((n, i) => i + 1) }) => {
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const numPhotos = photos.length;
+
+  // Loops index on overflow
+  const updateIndex = (delta) =>
+    setPhotoIndex((photoIndex + numPhotos + delta) % numPhotos);
+
+  return (
+    <div className="row apart">
+      <PageSlider onClick={() => updateIndex(-1)}>&lt;</PageSlider>
+      <ImageViewer>{photos[photoIndex]}</ImageViewer>
+      <PageSlider onClick={() => updateIndex(+1)}>&gt;</PageSlider>
+    </div>
+  );
+};
 
 export default Gallery;
