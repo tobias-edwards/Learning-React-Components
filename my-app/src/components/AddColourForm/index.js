@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useInput } from "../../hooks";
+import { useInput } from "../../hooks/hooks";
 
 // Controlled component - React controls state of the form
 const AddColourForm = ({ onNewColour = (f) => f }) => {

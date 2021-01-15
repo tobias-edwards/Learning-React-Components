@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
@@ -14,7 +14,10 @@ import GIFViewer from "./components/gif-viewer";
 import StarRatingInteractive from "./components/StarRatingInteractive";
 import ColourList from "./components/ColourList";
 import AddColourForm from "./components/AddColourForm";
+import ColourListContext from "./components/ColourListContext";
+import AddColourContext from "./components/AddColourContext";
 import colourData from "./colour-data.json";
+import { ColourProvider } from "./hooks/colour-hooks";
 
 const App = () => {
   const [colours, setColours] = useState(colourData);
@@ -22,6 +25,15 @@ const App = () => {
 
   return (
     <div className="center">
+      {/* Context time */}
+      <div className="flex-item">
+        {/* Pass as object i.e. value = {colourData: colourData, ...} */}
+        <ColourProvider>
+          <AddColourContext />
+          <ColourListContext />
+        </ColourProvider>
+      </div>
+
       {/* Props passing */}
       <div className="flex-item">
         <AddColourForm
