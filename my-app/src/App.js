@@ -1,23 +1,26 @@
-import React, { useState, useEffect, createContext } from "react";
-import { v4 as uuidv4 } from "uuid";
-import * as serviceWorker from "./serviceWorker";
-import "./index.css";
-import userData from "./user-data.json";
-import UserCard from "./components/user-card";
-import ToggleButton from "./components/ToggleButton";
-import Gallery from "./components/gallery";
-import AddUserCardForm from "./components/AddUserCardForm";
-import Stopwatch from "./components/stopwatch";
-import Draggable from "./components/draggable";
-import DraggableCard from "./components/DraggableCard";
-import GIFViewer from "./components/gif-viewer";
-import StarRatingInteractive from "./components/StarRatingInteractive";
-import ColourList from "./components/ColourList";
-import AddColourForm from "./components/AddColourForm";
-import ColourListContext from "./components/ColourListContext";
-import AddColourContext from "./components/AddColourContext";
-import colourData from "./colour-data.json";
-import { ColourProvider } from "./hooks/colour-hooks";
+import React, { useState, useEffect, createContext } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import * as serviceWorker from './serviceWorker';
+import './index.css';
+import userData from './user-data.json';
+import UserCard from './components/user-card';
+import ToggleButton from './components/ToggleButton';
+import Gallery from './components/gallery';
+import AddUserCardForm from './components/AddUserCardForm';
+import Stopwatch from './components/stopwatch';
+import Draggable from './components/draggable';
+import DraggableCard from './components/DraggableCard';
+import GIFViewer from './components/gif-viewer';
+import StarRatingInteractive from './components/StarRatingInteractive';
+import ColourList from './components/ColourList';
+import AddColourForm from './components/AddColourForm';
+import ColourListContext from './components/ColourListContext';
+import AddColourContext from './components/AddColourContext';
+import colourData from './colour-data.json';
+import { ColourProvider } from './hooks/colour-hooks';
+import Counter from './components/Counter';
+import Pure from './components/Pure';
+import Impure from './components/Impure';
 
 const App = () => {
   const [colours, setColours] = useState(colourData);
@@ -25,6 +28,20 @@ const App = () => {
 
   return (
     <div className="center">
+      {/* Testing Pure components performance */}
+      <div className="flex-item">
+        <h1>Pure components</h1>
+        <Pure />
+      </div>
+      <div className="flex-item">
+        <h1>Impure component</h1>
+        <Impure />
+      </div>
+
+      <div className="flex-item">
+        <Counter />
+      </div>
+
       {/* Context time */}
       <div className="flex-item">
         {/* Pass as object i.e. value = {colourData: colourData, ...} */}
